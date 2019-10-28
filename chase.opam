@@ -20,3 +20,7 @@ dev-repo: "git+https://github.com/ramsdell/chase.git"
 bug-reports: "https://github.com/ramsdell/chase/issues"
 depends: ["ocaml" "ocamlfind" "getopt" "dune"]
 build: ["dune" "build" "-p" name "-j" jobs]
+url {
+  src: "https://github.com/ramsdell/chase/archive/1.2.tar.gz"
+  checksum: "md5=e235578d25c7b318c63e1836ea1a48ea"
+}
