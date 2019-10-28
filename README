@@ -128,15 +128,8 @@ EMACS USERS
 Syntax error messages produced by the chase include Emacs style
 location information.  Use M-x compile to run the chase and C-x ` to
 move to the sequent that caused the error message.  When other error
-messages include position information, it points to the position of =>
-in the formula that caused the problem.
-
-Use Prolog mode for files containing Geolog input by adding following
-to your .emacs or .emacs.d/init.el file.
-
-;; Geolog
-(setq auto-mode-alist
-      (cons '("\\.gl\\'" . prolog-mode) auto-mode-alist))
+messages include position information, it points to the position of
+period in the formula that caused the problem.
 
 DEVELOPMENT
 
