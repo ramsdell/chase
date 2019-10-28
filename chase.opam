@@ -15,6 +15,8 @@ it is defined only on a proper subset of its domain.
 maintainer: "John D. Ramsdell <ramsdell@mitre.org>"
 authors: "John D. Ramsdell <ramsdell@mitre.org>"
 license: "BSD"
-dev-repo: "https://github.com/ramsdell/chase"
+homepage: "https://github.com/ramsdell/chase"
+dev-repo: "git-https://github.com/ramsdell/chase.git"
+bug-reports: "https://github.com/ramsdell/chase/issues"
 depends: ["ocaml" "ocamlfind" "getopt" "dune"]
 build: ["dune" "build" "-p" name "-j" jobs]
