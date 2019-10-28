@@ -1,0 +1,10 @@
+To update the version number do:
+
+1. Edit chase.opam, field version.
+
+2. Edit version.ml.
+
+3. Edit chase.xhtml, on line with "<pre>% chase version"
+
+4. Make the chase program, run the tests, and update the expected
+   answers.

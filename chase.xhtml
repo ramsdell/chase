@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type"
+        content="application/xhtml+xml; charset=UTF-8" />
+  <title>Chase User Guide</title>
+  <style type="text/css">
+    h1 { text-align: center }
+    div.auth { text-align: center }
+    body { background: white; color: black; max-width: 48em }
+  </style>
+  <script type="application/ecmascript">
+<![CDATA[
+var s;
+
+function init() {
+  s = document.getElementById("s0");
+  s.setAttribute("style", "display: block");
+}
+
+function show(evt, struct) {
+  s.setAttribute("style", "display: none");
+  s = document.getElementById(struct);
+  s.setAttribute("style", "display: block");
+}
+]]>
+  </script>
+</head>
+
+<body onload="init()">
+
+  <p id="contents">
+    [<a href="#input">Input Syntax</a>]
+    [<a href="#structures">Structures</a>]
+    [<a href="#output">Output Syntax</a>]
+    [<a href="#chase">Chase Usage</a>]
+    [<a href="#visualization">Output Visualization</a>]
+    [<a href="#chasetree">Chasetree Usage</a>]
+    [<a href="#makefile">Makefile</a>]
+    [<a href="#m4">Including Files</a>]
+    [<a href="#algorithm">Algorithm</a>]</p>
+
+  <h1>Chase User Guide</h1>
+
+  <div class="auth">John D. Ramsdell</div>
+
+  <div class="auth">The MITRE Corporation</div>
+
+  <p>The chase program is a model finder for first-order logic with
+    equality.  It finds minimal models of a theory expressed in
+    finitary geometric form, where functions in models may be partial.
+    A formula is in <em>finitary geometric form</em> if it is a finite
+    sentence consisting of a single implication, the antecedent is a
+    conjunction of atomic formulas, and the consequent is a
+    disjunction.  Each disjunct is a possibly existentially quantified
+    conjunction of atomic formulas.  A function is <em>partial</em> if
+    it is defined only on a proper subset of its domain.  A sentence
+    in first-order logic is <em>finitary geometric</em> iff it is
+    logically equivalent to finite set of sentences in finitary
+    geometric form.  Finitary geometric logic is also called coherent
+    logic.</p>
+
+  <p>We will assume familiarity with basic ideas and results from
+    first-order mathematical logic; notions that are not defined here
+    are treated in any text on logic with allowances for partial
+    functions.  When a structure <var>A</var> satisfies
+    theory <var>T</var>, we write <var>A</var> |= <var>T</var> and
+    call <var>A</var> a model.  The definition of a homomorphism must
+    account for partial functions.</p>
+
+  <p><strong>Definition:</strong> Let <var>A</var> and <var>B</var> be
+    structures.  A homomorphism <var>h</var> of <var>A</var>
+    into <var>B</var> is a function with these properties</p>
+
+  <ol>
+    <li>For each <var>n</var>-place predicate <var>P</var>,
+      <var>P</var>(<var>a</var><sub>1</sub>,
+      ..., <var>a</var><sub><var>n</var></sub>) in <var>A</var>
+      implies
+      <var>P</var>(<var>h</var>(<var>a</var><sub>1</sub>),
+      ..., <var>h</var>(<var>a</var><sub><var>n</var></sub>))
+      in <var>B</var>.</li>
+    <li>For each <var>n</var>-place function <var>f</var>,
+      <var>f</var>(<var>a</var><sub>1</sub>,
+      ..., <var>a</var><sub><var>n</var></sub>)
+      = <var>a</var><sub>0</sub> in <var>A</var> implies
+      <var>f</var>(<var>h</var>(<var>a</var><sub>1</sub>),
+      ..., <var>h</var>(<var>a</var><sub><var>n</var></sub>))
+      = <var>h</var>(<var>a</var><sub>0</sub>) in <var>B</var>.</li>
+  </ol>
+
+  <p> We write <var>A</var> &lt;: <var>B</var> when there is a
+    homomorphism from <var>A</var> into <var>B</var>.</p>
+
+  <p><strong>Definition:</strong> Model <var>A</var> of <var>T</var>
+    is <em>minimal</em> iff for all models <var>B</var>
+    of <var>T</var>, whenever model <var>B</var> &lt;: <var>A</var>
+    then <var>A</var> &lt;: <var>B</var>.</p>
+
+  <p><strong>Definition:</strong> A set of models <var>M</var> is
+    a <em>set of support</em> iff whenever
+    <var>B</var> |= <var>T</var> there exists a model <var>A</var>
+    in <var>M</var> such that <var>A</var> &lt;: <var>B</var>.</p>
+
+  <p>When given a theory, the chase program produces a set of support
+    whenever it terminates successfully.  It may produce some models
+    that are not minimal.  The chase program can also be run in a mode
+    in which it terminates successfully after finding just one
+    model.</p>
+
+  <h2 id="input">Input Syntax</h2>
+
+  <p>The input to the chase program is a set of sequents written in a
+    slight variant of
+    <a href="https://www.cpp.edu/~jrfisher/www/prolog_tutorial/logic_topics/geolog/index.html">Geolog</a>
+    syntax.  The syntax is inspired by Prolog.  Quantification is
+    implicit and constants and variables are distinguished using
+    capitalization.</p>
+
+  <p>A Geolog sequent has the form</p>
+
+  <blockquote>
+    <var>A</var><sub>1</sub> &amp; <var>A</var><sub>2</sub> &amp;
+    ... &amp; <var>A<sub>m</sub></var> =&gt; <var>C</var><sub>1</sub>
+    | <var>C</var><sub>2</sub> | ... | <var>C<sub>n</sub></var> .
+  </blockquote>
+
+  <p>The formula to the left of <code>=></code> is the antecedent, and
+    the consequent is to the right.  Each
+    conjunct <var>A<sub>i</sub></var> in the antecedent is an atomic
+    formula.  The consequent is a disjunction.  Each
+    disjunct <var>C<sub>j</sub></var> is a conjunction of the form</p>
+
+  <blockquote>
+    <var>B</var><sub><var>j</var>,1</sub> &amp; <var>B</var><sub><var>j</var>,2</sub> &amp;
+    ... &amp; <var>B<sub>j,p</sub></var>
+  </blockquote>
+
+  <p>where each conjunct <var>B<sub>j,k</sub></var> is an atomic
+    formula.  A consequent with no disjuncts is indicated by the
+    reserve symbol <code>false</code>.  A conjunction with no
+    conjuncts is indicated by the reserved symbol <code>true</code>.
+    When the antecedent is true, the tokens <code>true =></code> may
+    be omitted.  Following Prolog, commas can be used to form
+    conjunctions and semicolons can be used to form disjunctions.</p>
+
+  <p>A symbol is a letter followed by a sequence of letters, dollar
+    signs (<code>$</code>), and underscores (<code>_</code>).  An
+    atomic formula is a predicate symbol (a symbol not capitalized)
+    applied to a parenthesized sequence of comma separated terms, or
+    an equality consisting of two terms separated by
+    the <code>=</code> sign.  A term is a variable (a capitalized
+    symbol), a constant (a symbol not capitalized), or a function
+    symbol (a symbol not capitalized) applied to a parenthesized
+    sequence of comma separated terms.</p>
+
+  <p>Comments start with <code>%</code> and continue until the end of
+    the line. An example of a theory for input follows.</p>
+
+  <blockquote>
+    <pre>% Conference Management
+
+author(X) &amp; paper(Y) &amp; assigned(X, Y).
+author(X) &amp; paper(Y) => read_score(X, Y) | conflict(X, Y).
+assigned(X, Y) &amp; author(X) &amp; paper(Y) => read_score(X, Y).
+assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
+  </blockquote>
+
+  <p>The variables that occur in the antecedent of a sequent are
+  universally quantified.  The variables that occur in
+  disjunct <var>B<sub>j</sub></var> and not in the antecedent are
+  existentially quantified over the disjunct.  Thus,</p>
+
+  <blockquote>
+    <pre>p(X) | q(X).</pre>
+  </blockquote>
+
+  <p>means (exists <var>X</var> <var>p(X)</var>) or
+    (exists <var>X</var> <var>q(X)</var>) <em>not</em>
+    exists <var>X</var> (<var>p(X)</var> or <var>q(X)</var>).</p>
+
+  <p>To specify that <var>X</var> is universally quantified in the
+  consequent, add <var>X=X</var> to the antecedent.  Thus
+    for all <var>X</var>, <var>p(X)</var> is written as:</p>
+
+  <blockquote>
+    <pre>X = X => p(X).</pre>
+  </blockquote>
+
+  <h2 id="structures">Structures</h2>
+
+  <p>A chase structure for theory <var>T</var> is a set of facts.
+    A <em>fact</em> is a ground atomic formula that has one of two
+    forms:
+    <ul>
+      <li><var>P</var>(<var>c</var><sub>1</sub>, ... ,
+        <var>c<sub>n</sub></var>)</li>
+      <li><var>f</var>(<var>c</var><sub>1</sub>, ... ,
+        <var>c<sub>m</sub></var>) = <var>c</var><sub>0</sub></li>
+    </ul>
+  where <var>P</var> and <var>f</var> are in the signature
+  of <var>T</var>.</p>
+
+  <p>The universe of structure <var>A</var> is the least
+    set <var>U</var> of constants such that
+    <ul>
+      <li><var>P</var>(<var>c</var><sub>1</sub>, ... ,
+        <var>c<sub>n</sub></var>) in <var>A</var> implies
+        <var>c</var><sub>1</sub>, ... ,
+        <var>c<sub>n</sub></var> in <var>U</var>
+      </li>
+      <li><var>f</var>(<var>c</var><sub>1</sub>, ... ,
+      <var>c<sub>m</sub></var>) = <var>c</var><sub>0</sub>
+       in <var>A</var> implies
+        <var>c</var><sub>0</sub>, ... ,
+        <var>c<sub>m</sub></var> in <var>U</var>
+      </li>
+  </ul></p>
+
+  <p>Let <var>C</var> be the set of constants that occur in
+    theory <var>T</var>.  A structure <var>A</var> produced by the
+    chase program for theory <var>T</var> has the following
+    properties.
+    <ul>
+      <li>Functions may be partial.</li>
+      <li>Equality in <var>A</var> is closed under congruence.</li>
+      <li> Each element in <var>U</var> is the canonical representative
+        of an equivalence class induced by congruence closure.</li>
+    </ul>
+    </p>
+  <h2 id="output">Output Syntax</h2>
+
+  <blockquote>
+    <pre>% chase version 1.2
+% bound = 250, limit = 2000
+% ********
+% author(X) &amp; paper(Y) &amp; assigned(X, Y). % (0)
+% author(X) &amp; paper(Y) => read_score(X, Y) | conflict(X, Y). % (1)
+% assigned(X, Y) &amp; author(X) &amp; paper(Y) => read_score(X, Y). % (2)
+% assigned(X, Y) &amp; conflict(X, Y) => false. % (3)
+% ********
+
+(0)[]
+
+(1,0){0}[assigned(x, y), author(x), paper(y)]
+
+(2,1){1}![assigned(x, y), author(x), paper(y), read_score(x, y)]
+
+(3,1){1}[assigned(x, y), author(x), conflict(x, y), paper(y)]
+
+(4,3){2}[assigned(x, y), author(x), conflict(x, y), paper(y),
+  read_score(x, y)]</pre>
+  </blockquote>
+
+  <p>A run of the chase produces structures assembled into a tree.
+    The root of the tree is labeled (0).  A label of the form (n, p)
+    gives the node number of the tree node and its parent.  When
+    structure <var>A</var> is the parent of <var>B</var>, there exists
+    a homomorphism from <var>A</var> into <var>B</var>. Every chase
+    step is structure-preserving.</p>
+
+  <p>The form {r} records the rule used to produce this structure.  A
+    structure marked with ! is a model.  Thus in this output, there
+    are two paths explored, &lt;0,1,2&gt; and &lt;0,1,3,4&gt;, and one
+    model found (2).</p>
+
+  <p>The second line of the output records the runtime parameters used
+    to control termination.  The program will terminate when the
+    number of facts in a structure exceeds the size bound or when the
+    number of structures produced exceeds the step limit.  Runtime
+    parameters can be specified on the command line,
+    where <code>-b</code> sets the size bound and <code>-l</code> sets
+    the step limit.  Runtime parameters can also be specified at the
+    beginning of the input.  Within square brackets, write <code>bound
+    = 66</code> to specify a size bound of 66, and write <code>limit =
+    1024</code> to specify a step limit of 1024.  Use a comma to
+    separate parameters when more than one is specified.</p>
+
+  <blockquote>
+    <pre>[ bound = 66, limit = 1024 ]</pre>
+  </blockquote>
+
+  <p>Runtime parameters specified in the input take precedence over
+    parameters specified on the command line.</p>
+
+  <h2 id="chase">Usage</h2>
+
+  <p>The chase reads a theory from a file or from standard input when
+  no file name is given on the command line.  By default, the output
+  is sent to standard output.  When an error occurs, such as when a
+  bound or limit is exceeded, the error message goes to standard error
+  and the program exits with status 1.</p>
+
+  <blockquote>
+    <pre>$ chase -h
+Usage: chase [OPTIONS] [INPUT]
+Options:
+  -o FILE  --output=FILE  output to file (default is standard output)
+  -t       --terse        use terse output -- print only models
+  -j       --just-one     find just one model
+  -b INT   --bound=INT    set structure size bound (default 250)
+  -l INT   --limit=INT    set step count limit (default 2000)
+  -c       --compact      print structures compactly
+  -s       --sexpr        print structures using S-expressions
+  -m INT   --margin=INT   set output margin
+  -q       --quant        read formulas using quantifier syntax
+  -e       --explicit     print formulas using quantifier syntax
+  -f       --flatten      print flattened formulas
+  -p       --proc-time    print processor time in seconds
+  -v       --version      print version number
+  -h       --help         print this message</pre>
+  </blockquote>
+
+  <p>Syntax error messages produced by the chase program include
+    Emacs style file position information.  When other error messages
+    include position information, it points to the position
+    of <code>=></code> in the formula that caused the problem.</p>
+
+  <p>Terse output mode (<code>-t</code>) is useful when the chase takes
+    many steps.  When in this mode, the chase prints only models.</p>
+
+  <p>Quantifier input syntax is enabled with <code>-q</code>.  In this
+    mode, quantifiers are explicit and a variable may be
+    uncapitalized.  The keywords for universal quantification and
+    existential quantification are <code>forall</code>
+    and <code>exists</code> respectively and used as in</p>
+
+  <blockquote>
+    <pre>forall x Y, P(x, Y) => exists z, Q(x, Y, c, z).</pre>
+  </blockquote>
+
+  <p>This sequent is translated into</p>
+
+  <blockquote>
+    <pre>P(X, Y) => Q(X, Y, c, Z).</pre>
+  </blockquote>
+
+  <p>S-expression output syntax is enabled with <code>-s</code>. Each
+    structure is printed as an association list.  This mode is useful
+    when another program consumes the output.</p>
+
+  <blockquote>
+    <pre>(struct (label 2) (parent 1) (sequent 1) (status model)
+  (facts (assigned x y) (author x) (paper y) (read_score x y)))</pre>
+  </blockquote>
+
+  <h2 id="visualization">Output Visualization</h2>
+
+  <p>The output of a run of the chase can be converted into an XHTML
+    file that displays the tree of structures produced.  The output
+    for the conference management example above is approximately
+    this.</p>
+
+<div class = 'diagram'>
+ <svg width = '229.680pt' height = '154.920pt'
+      xmlns = 'http://www.w3.org/2000/svg' version = '1.1'
+      viewBox = '0 0 229.680 154.920' font-size = '12.000'>
+  <text x = '189.720' y = '101.040' style = 'text-anchor: middle; fill: red;'
+        onclick = 'show(evt, &quot;s4&quot;)'>4</text>
+  <line x1 = '139.800' y1 = '114.960' x2 = '189.720' y2 = '114.960'
+        style = 'stroke-width: 0.960; stroke: gray;'/>
+  <text x = '139.800' y = '101.040' style = 'text-anchor: middle; fill: red;'
+        onclick = 'show(evt, &quot;s3&quot;)'>3</text>
+  <line x1 = '89.880' y1 = '77.460' x2 = '139.800' y2 = '114.960'
+        style = 'stroke-width: 0.960; stroke: gray;'/>
+  <text x = '139.800' y = '26.040' style = 'text-anchor: middle; fill: blue;'
+        onclick = 'show(evt, &quot;s2&quot;)'>2</text>
+  <line x1 = '89.880' y1 = '77.460' x2 = '139.800' y2 = '39.960'
+        style = 'stroke-width: 0.960; stroke: gray;'/>
+  <text x = '89.880' y = '63.540' style = 'text-anchor: middle; fill: black;'
+        onclick = 'show(evt, &quot;s1&quot;)'>1</text>
+  <line x1 = '39.960' y1 = '77.460' x2 = '89.880' y2 = '77.460'
+        style = 'stroke-width: 0.960; stroke: gray;'/>
+  <text x = '39.960' y = '63.540' style = 'text-anchor: middle; fill: black;'
+        onclick = 'show(evt, &quot;s0&quot;)'>0</text>
+ </svg>
+</div>
+<div class='structs'>
+ <p id='s0' class='struct'>(0)[]</p>
+ <p id='s1' class='struct' style='display: none'>(1,0){0}[<strong>assigned(x, y),</strong> <strong>author(x),</strong> <strong>paper(y)</strong>]</p>
+ <p id='s2' class='struct' style='display: none'>(2,1){1}![assigned(x, y), author(x), paper(y), <strong>read_score(x, y)</strong>]</p>
+ <p id='s3' class='struct' style='display: none'>(3,1){1}[assigned(x, y), author(x), <strong>conflict(x, y)</strong>, paper(y)]</p>
+ <p id='s4' class='struct' style='display: none'>(4,3){2}[assigned(x, y), author(x), conflict(x, y), paper(y), <strong>read_score(x, y)</strong>]</p>
+</div>
+
+  <p>One can click on a tree node to see its structure. Try it!</p>
+
+  <h2 id="chasetree">Usage</h2>
+
+  <blockquote>
+    <pre>$ chasetree -h
+Usage: chasetree [OPTIONS] [INPUT]
+Options:
+  -o FILE  --output=FILE  output to file (default is standard output)
+  -r INT   --ratio=INT    set ratio between window heights (default 20%)
+  -v       --version      print version number
+  -h       --help         print this message</pre>
+  </blockquote>
+
+  <h2 id="makefile">Makefile</h2>
+
+  <p>The file <code>chase.mk</code> contains make rules for the chase
+    program.  This file is installed in the chase <code>share</code>
+    directory.</p>
+
+  <p>A sample makefile that uses <code>chase.mk</code> follows.  If
+    you cut-and-paste from a browser window, be sure to convert the
+    leading spaces in the last line into a tab character.</p>
+
+  <blockquote>
+    <pre>include chase.mk
+
+TXTS    := $(patsubst %.gl,%.txt,$(wildcard *.gl)) \
+                $(patsubst %.glx,%.txt,$(wildcard *.glx))
+
+all:    $(TXTS)
+
+clean:
+        -rm $(TXTS)</pre>
+  </blockquote>
+
+  <h2 id="m4">Including Files</h2>
+
+  <p>The <code>m4</code> macro processor can be used to include a
+    Geolog file into another Geolog file.  To include the
+    file <code>foo.gli</code> into <code>bar.glm</code> type</p>
+
+  <blockquote>
+    <pre>m4_include(`foo.gli')m4_dnl</pre>
+  </blockquote>
+
+  <p>Process <code>bar.glm</code> with</p>
+
+  <blockquote>
+    <pre>m4 -P bar.glm > bar.gl</pre>
+  </blockquote>
+
+  <p>The Makefile presented in previous section has an <code>m4</code>
+    rule for files with extension <code>.glm</code>.</p>
+
+  <h2 id="algorithm">Algorithm</h2>
+
+  <p>Models of theory <var>T</var> are found using an algorithm called
+  the chase.  The procedure starts with a structure in which each
+  constant in <var>T</var> is equated to itself.  Queue <var>Q</var>
+  is created containing the initial structure, and the main loop
+  begins.</p>
+
+  <p>The chase for theory <var>T</var> repeats the following steps
+    until queue <var>Q</var> is empty.</p>
+
+  <ol>
+    <li>Take structure <var>A</var> from <var>Q</var>.</li>
+    <li>If <var>A</var> models <var>T</var> then output <var>A</var>.</li>
+    <li>Otherwise, choose a formula <var>F</var> in <var>T</var> not
+      satisfied by <var>A</var>.
+      <ol>
+	<li>Find a variable assignment <var>S</var> for the
+	universally quantified variables in <var>F</var> such that its
+	antecedent is satisfied, but its consequent is not.</li>
+	<li>Apply <var>S</var> to each disjunct in the
+	consequent.</li>
+	<li>For each disjunct, substitute a freshly generated constant
+	for each existentially quantified variable, and add to the
+	queue a structure produced by augmenting <var>A</var> with the
+	disjunct. Mark <var>A</var> as being the parent of the new
+	structure.</li>
+      </ol>
+    </li>
+  </ol>
+
+  <h2 id="acknowledgment">Acknowledgment</h2>
+
+  <p>Daniel J. Dougherty of the Worcester Polytechnic Institute
+  introduced me to geometric logic and minimization and provided
+  guidance.</p>
+
+</body>
+</html>

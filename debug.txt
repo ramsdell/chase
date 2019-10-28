@@ -1,0 +1,11 @@
+To debug the chase program.
+
+1. copy ocamldebug to $HOME/.ocamldebug.
+
+2. copy input file to thy.gl.
+
+3. Compile with "make DEBUG=d.".
+
+3. change directory to _build.
+
+4. run "ocamldebug ./chase.d.byte".
