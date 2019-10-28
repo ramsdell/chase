@@ -43,6 +43,11 @@ first search for models.
 
 				 ***
 
+[Universal quantifiers in the consequent of formulas has been
+implemented.  The new syntax is X = X => p(X) instead of using @.
+What follows a description of the design written before it was
+implemented.]
+
 Notes on adding the effect of universal quantifiers in the consequent
 of formulas.
 

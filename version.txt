@@ -6,5 +6,7 @@ To update the version number do:
 
 3. Edit chase.xhtml, on line with "<pre>% chase version"
 
-4. Make the chase program, run the tests, and update the expected
+4. Edit README, on line with "% chase version"
+
+5. Make the chase program, run the tests, and update the expected
    answers.
