@@ -1,7 +1,9 @@
-	  Chase: A Model Finder for Finitary Geometric Logic
+# Chase: A Model Finder for Finitary Geometric Logic
 
-			   John D. Ramsdell
-			The MITRE Corporation
+<div style="text-align: center"> 
+John D. Ramsdell</br>
+The MITRE Corporation
+</div>
 
 The chase program is a model finder for first order logic with
 equality.  It finds minimal models of a theory expressed in finitary
@@ -13,10 +15,14 @@ possibly existentially quantified conjunction of atomic formulas.  A
 function is partial if it is defined only on a proper subset of its
 domain.
 
-INSTALLING FROM SOURCES
+## Installing From OPAM
+
+    $ opam install chase
+
+## Installing From Sources
 
 This software uses ocaml, opam, getopt, and dune.  See
-http://ocaml.org for ocaml installation instructions.  Install getopt
+<http://ocaml.org> for ocaml installation instructions.  Install getopt
 and dune with:
 
     $ opam install getopt dune
@@ -26,10 +32,11 @@ Install the programs with:
     $ dune build @install
     $ dune install
 
-USAGE
+## Usage
 
-The user guide is in chase.xhtml.
+The user guide is in [chase.xhtml](https://ramsdell.github.io/chase/index.html).
 
+```
 $ chase -h
 Usage: chase [OPTIONS] [INPUT]
 Options:
@@ -48,6 +55,9 @@ Options:
   -v       --version      print version number
   -h       --help         print this message
 
+```
+
+```
 $ chasetree -h
 Usage: chasetree [OPTIONS] [INPUT]
 Options:
@@ -56,12 +66,15 @@ Options:
   -v       --version      print version number
   -h       --help         print this message
 
-EXAMPLE
+```
+
+## Example
 
 The syntax used for geometric theories is Geolog, a Prolog-like
 syntax.  What follows is an example of a theory for conference
 management.
 
+```
 $ cat cm.gl
 % Conference Management
 
@@ -71,8 +84,11 @@ assigned(X, Y) & author(X) & paper(Y) => read_score(X, Y).
 assigned(X, Y) & conflict(X, Y) => false.
 $
 
+```
+
 A run of the chase program produces the following output.
 
+```
 $ chase cm.gl
 % chase version 1.2
 % bound = 50, limit = 500
@@ -93,6 +109,7 @@ $ chase cm.gl
 
 (4,3){2}[assigned(x, y), author(x), conflict(x, y), paper(y),
   read_score(x, y)]
+```
 
 A run of the chase produces structures assembled into a tree.  The
 root of the tree is labeled (0).  A label of the form (n, p) gives the
@@ -105,14 +122,17 @@ More examples are in the tst directory.
 
 A graphical view of chase output is constructed by chasetree.
 
+```
 $ chase -o cm.text cm.gl
 $ chasetree -o cm.xhtml cm.text
+```
 
-MAKEFILE
+## Makefile
 
 The file chase.mk contains make rules for the chase program.  A sample
 makefile that uses chase.mk follows.
 
+```
 include chase.mk
 
 TXTS	:= $(patsubst %.gl,%.txt,$(wildcard *.gl)) \
@@ -122,8 +142,9 @@ all:	$(TXTS)
 
 clean:
 	-rm $(TXTS)
+```
 
-EMACS USERS
+## Emacs Users
 
 Syntax error messages produced by the chase include Emacs style
 location information.  Use M-x compile to run the chase and C-x ` to
@@ -131,9 +152,9 @@ move to the sequent that caused the error message.  When other error
 messages include position information, it points to the position of
 period in the formula that caused the problem.
 
-DEVELOPMENT
+## Development
 
 The software uses ocamlbuild for development and testing.  To run the
 tests in the tst directory, type:
 
-$ make; (cd tst; make)
+    $ make; (cd tst; make)
