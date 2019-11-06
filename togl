@@ -1,7 +1,0 @@
-#! /bin/sh
-
-# Convert chase output into input syntax.
-#
-# Notice it uses commas to separate atoms in the generated conjunction.
-
-exec sed 's/^ *%.*$//;s/^(.*\[/=> /;s/]/./' "$@"

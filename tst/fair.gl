@@ -1,5 +1,0 @@
-% Fairness
-
-r(X, Y).
-r(X, Y) => r(Y, Z).
-r(X, Y) => false.

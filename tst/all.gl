@@ -1,3 +1,0 @@
-% Universally quantified variable in the conclusion
-X = X => p(X).
-q(a).
