@@ -286,10 +286,12 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
   <h2 id="chase">Usage</h2>
 
   <p>The chase reads a theory from a file or from standard input when
-  no file name is given on the command line.  By default, the output
-  is sent to standard output.  When an error occurs, such as when a
-  bound or limit is exceeded, the error message goes to standard error
-  and the program exits with status 1.</p>
+  no file name is given on the command line.  When the input file name
+  has the extension ".md", the input syntax is treated as Markdown,
+  and chase input is extracted from fenced code blocks. By default,
+  the output is sent to standard output.  When an error occurs, such
+  as when a bound or limit is exceeded, the error message goes to
+  standard error and the program exits with status 1.</p>
 
   <blockquote>
     <pre>$ chase -h

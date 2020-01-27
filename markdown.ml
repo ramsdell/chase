@@ -151,7 +151,7 @@ let markdown ch =
   fun buf n ->
   loop buf n 0
 
-(* A debugger for this code *)
+(* A debugger for this code
 let debug_markdown ch =
   let f = markdown ch in
   fun buf n ->
@@ -176,10 +176,10 @@ let debug_markdown ch =
         loop (i + 1)
       end in
   loop 0
-  (**)
+ *)
 
 (* Create a lexbuf from the markdown function *)
 let read_lexbuf fname ch =
-  let lexbuf = from_function (debug_markdown ch) in
+  let lexbuf = from_function (markdown ch) in
   lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = fname };
   lexbuf

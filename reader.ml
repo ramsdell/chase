@@ -26,9 +26,12 @@ let parse_err pos msg =
   failwith (error_msg pos msg)
 
 let read_lexbuf fname ch =
-  let lexbuf = from_channel ch in
-  lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = fname };
-  lexbuf
+  if Filename.check_suffix fname ".md" then
+    Markdown.read_lexbuf fname ch
+  else
+    let lexbuf = from_channel ch in
+    lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = fname };
+    lexbuf
 
 let read_ast lexbuf =
   try

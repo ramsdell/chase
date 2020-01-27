@@ -1,3 +1,9 @@
+2020-01-26  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* reader.ml (read_lexbuf): When the input file name has the
+	extension ".md", the input syntax is treated as Markdown, and
+	Chase input is extracted from fenced code blocks.
+
 2019-10-21  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* version.ml (version): Updated to 1.2.
