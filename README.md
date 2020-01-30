@@ -1,6 +1,6 @@
 # Chase: A Model Finder for Finitary Geometric Logic
 
-<p align="center">John D. Ramsdell</br>
+<p align="center">John D. Ramsdell<br>
 The MITRE Corporation</p>
 
 The chase program is a model finder for first order logic with
