@@ -2,9 +2,9 @@
 
 TSTS	:= $(patsubst %.gl,%.txt,$(wildcard *.gl)) \
 		$(patsubst %.glx,%.txt,$(wildcard *.glx))
-CHASE   = ../chase.native
+CHASE	= ../chase.native
 CHASEFLAGS = -t
-DIFF    = diff
+DIFF	= diff
 DIFFFLAGS = -u
 
 %.txt:	%.gl $(CHASE)

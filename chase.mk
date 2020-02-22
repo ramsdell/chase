@@ -8,6 +8,10 @@ M4	  = m4
 %.txt:		%.gl
 	$(TIME) $(CHASE) -t $(CHASEFLAGS) -o $@ $*.gl
 
+# Run chase in terse mode on a Markdown source file
+%.txt:		%.md
+	$(TIME) $(CHASE) -t $(CHASEFLAGS) -o $@ $*.md
+
 # Run chase in terse mode expecting errors
 %.txt:		%.glx
 	-$(TIME) $(CHASE) -t $(CHASEFLAGS) -o $@ $*.glx
@@ -15,6 +19,10 @@ M4	  = m4
 # Run chase in verbose mode
 %.text:		%.gl
 	$(TIME) $(CHASE) $(CHASEFLAGS) -o $@ $*.gl
+
+# Run chase in verbose mode on a Markdown source file
+%.text:		%.md
+	$(TIME) $(CHASE) $(CHASEFLAGS) -o $@ $*.md
 
 # Run chase in verbose mode expecting errors
 %.text:		%.glx

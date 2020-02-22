@@ -142,6 +142,13 @@ clean:
 	-rm $(TXTS)
 ```
 
+## Literate Theories Using Markdown
+
+When the Chase input file name has the extension ".md", the input
+syntax is treated as Markdown, and chase input is extracted from
+fenced code blocks.  Examples of literate theories is in the
+[markdown](markdown/README.md) directory.
+
 ## Emacs Users
 
 Syntax error messages produced by the chase include Emacs style
@@ -153,6 +160,8 @@ period in the formula that caused the problem.
 ## Development
 
 The software uses ocamlbuild for development and testing.  To run the
-tests in the tst directory, type:
+tests in the [tst directory](tst/README.md), type:
 
     $ make; (cd tst; make)
+
+The instructions for debugging the program is in [debug.txt](debug.txt).
