@@ -1,4 +1,4 @@
-% chase version 1.2
+% chase version 1.3
 % bound = 50, limit = 500
 % ********
 % file(F) => link(F) | regular(F). % (0)

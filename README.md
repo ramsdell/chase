@@ -88,7 +88,7 @@ A run of the chase program produces the following output.
 
 ```
 $ chase cm.gl
-% chase version 1.2
+% chase version 1.3
 % bound = 50, limit = 500
 % ********
 % author(X) & paper(Y) & assigned(X, Y). % (0)

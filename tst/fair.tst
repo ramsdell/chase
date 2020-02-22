@@ -1,4 +1,4 @@
-% chase version 1.2
+% chase version 1.3
 % bound = 250, limit = 2000
 % ********
 % r(X, Y). % (0)

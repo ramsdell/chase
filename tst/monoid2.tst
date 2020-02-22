@@ -1,4 +1,4 @@
-% chase version 1.2
+% chase version 1.3
 % bound = 250, limit = 2000
 % ********
 % X = X & Y = Y & Z = Z => dot(dot(X, Y), Z) = dot(X, dot(Y, Z)). % (0)
