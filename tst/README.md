@@ -8,3 +8,5 @@ The output of each test is compared with a file containing the
 expected output.  If differences are found, there could be a problem.
 Otherwise, the expected outputs can be updated by running the script
 `./updatetst` in this directory.
+
+\[[Up](../README.md)\]
