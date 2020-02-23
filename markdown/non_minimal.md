@@ -10,6 +10,6 @@ a(X) => b(X).
 The chase produces two models, and there is a homomorphism from one
 to the other, but not the other way.
 
-\[[Prev](total_ordering.md)\]
+\[[Prev](lt.md)\]
 \[[Up](README.md)\]
 \[[Next](group3.md)\]

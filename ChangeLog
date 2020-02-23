@@ -1,3 +1,7 @@
+2020-02-22  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* markdown/*: Added literate theory examples in Markdown syntax.
+
 2020-02-22  John D. Ramsdell  <ramsdell0@gmail.com>
 
 	* version.ml, chase.opam, README.md, chase.xhtml: Updated version
