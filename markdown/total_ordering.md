@@ -19,7 +19,7 @@ As expected, Chase finds three models.
 You can see the steps taken by Chase by typing:
 
     $ chase -o total_ordering.text total_ordering.md
-	$ chasetree -o total_ordering.xhtml total_ordering.text
+    $ chasetree -o total_ordering.xhtml total_ordering.text
 
 and then opening `total_ordering.xhtml` in a browser.
 

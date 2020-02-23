@@ -7,8 +7,8 @@ a(X) | b(X).
 a(X) => b(X).
 ```
 
-The chase produces two models, and there is a homomorphism from one
-to the other, but not the other way.
+Chase produces two models, and there is a homomorphism from one to the
+other, but not the other way.
 
 \[[Prev](lt.md)\]
 \[[Up](README.md)\]

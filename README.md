@@ -3,15 +3,14 @@
 <p align="center">John D. Ramsdell<br>
 The MITRE Corporation</p>
 
-The chase program is a model finder for first order logic with
-equality.  It finds minimal models of a theory expressed in finitary
-geometric form, where functions in models may be partial.  A formula
-is in finitary geometric form if it is a sentence consisting of a
-single implication, the antecedent is a conjunction of atomic
-formulas, and the consequent is a disjunction.  Each disjunct is a
-possibly existentially quantified conjunction of atomic formulas.  A
-function is partial if it is defined only on a proper subset of its
-domain.
+Chase is a model finder for first order logic with equality.  It finds
+minimal models of a theory expressed in finitary geometric form, where
+functions in models may be partial.  A formula is in finitary
+geometric form if it is a sentence consisting of a single implication,
+the antecedent is a conjunction of atomic formulas, and the consequent
+is a disjunction.  Each disjunct is a possibly existentially
+quantified conjunction of atomic formulas.  A function is partial if
+it is defined only on a proper subset of its domain.
 
 ## Installing From OPAM
 
@@ -84,7 +83,7 @@ $
 
 ```
 
-A run of the chase program produces the following output.
+A run of Chase produces the following output.
 
 ```
 $ chase cm.gl
@@ -109,16 +108,16 @@ $ chase cm.gl
   read_score(x, y)]
 ```
 
-A run of the chase produces structures assembled into a tree.  The
-root of the tree is labeled (0).  A label of the form (n, p) gives the
-node number of the tree node and its parent.  The form {r} records the
-rule used to produce this structure.  A structure marked with ! is a
-model.  Thus in this output, there are two paths explored, <0,1,2> and
+A run of Chase produces structures assembled into a tree.  The root of
+the tree is labeled (0).  A label of the form (n, p) gives the node
+number of the tree node and its parent.  The form {r} records the rule
+used to produce this structure.  A structure marked with ! is a model.
+Thus in this output, there are two paths explored, <0,1,2> and
 <0,1,3,4>, and one model found (2).
 
 More examples are in the tst directory.
 
-A graphical view of chase output is constructed by chasetree.
+A graphical view of Chase output is constructed by chasetree.
 
 ```
 $ chase -o cm.text cm.gl
@@ -127,8 +126,8 @@ $ chasetree -o cm.xhtml cm.text
 
 ## Makefile
 
-The file chase.mk contains make rules for the chase program.  A sample
-makefile that uses chase.mk follows.
+The file chase.mk contains make rules for Chase.  A sample makefile
+that uses chase.mk follows.
 
 ```
 include chase.mk
@@ -145,14 +144,14 @@ clean:
 ## Literate Theories Using Markdown
 
 When the Chase input file name has the extension ".md", the input
-syntax is treated as Markdown, and chase input is extracted from
+syntax is treated as Markdown, and Chase input is extracted from
 fenced code blocks.  Examples of literate theories is in the
 [markdown](markdown/README.md) directory.
 
 ## Emacs Users
 
-Syntax error messages produced by the chase include Emacs style
-location information.  Use M-x compile to run the chase and C-x ` to
+Syntax error messages produced by Chase include Emacs style
+location information.  Use M-x compile to run Chase and C-x ` to
 move to the sequent that caused the error message.  When other error
 messages include position information, it points to the position of
 period in the formula that caused the problem.
