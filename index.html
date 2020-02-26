@@ -46,11 +46,11 @@ function show(evt, struct) {
 
   <div class="auth">The MITRE Corporation</div>
 
-  <p>The chase program is a model finder for first-order logic with
-    equality.  It finds minimal models of a theory expressed in
-    finitary geometric form, where functions in models may be partial.
-    A formula is in <em>finitary geometric form</em> if it is a finite
-    sentence consisting of a single implication, the antecedent is a
+  <p>Chase is a model finder for first-order logic with equality.  It
+    finds minimal models of a theory expressed in finitary geometric
+    form, where functions in models may be partial.  A formula is
+    in <em>finitary geometric form</em> if it is a finite sentence
+    consisting of a single implication, the antecedent is a
     conjunction of atomic formulas, and the consequent is a
     disjunction.  Each disjunct is a possibly existentially quantified
     conjunction of atomic formulas.  A function is <em>partial</em> if
@@ -102,16 +102,15 @@ function show(evt, struct) {
     <var>B</var> |= <var>T</var> there exists a model <var>A</var>
     in <var>M</var> such that <var>A</var> &lt;: <var>B</var>.</p>
 
-  <p>When given a theory, the chase program produces a set of support
-    whenever it terminates successfully.  It may produce some models
-    that are not minimal.  The chase program can also be run in a mode
-    in which it terminates successfully after finding just one
-    model.</p>
+  <p>When given a theory, Chase produces a set of support whenever it
+    terminates successfully.  It may produce some models that are not
+    minimal.  Chase can also be run in a mode in which it terminates
+    successfully after finding just one model.</p>
 
   <h2 id="input">Input Syntax</h2>
 
-  <p>The input to the chase program is a set of sequents written in a
-    slight variant of
+  <p>The input to Chase is a set of sequents written in a slight
+    variant of
     <a href="https://www.cpp.edu/~jrfisher/www/prolog_tutorial/logic_topics/geolog/index.html">Geolog</a>
     syntax.  The syntax is inspired by Prolog.  Quantification is
     implicit and constants and variables are distinguished using
@@ -189,7 +188,7 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
 
   <h2 id="structures">Structures</h2>
 
-  <p>A chase structure for theory <var>T</var> is a set of facts.
+  <p>A Chase structure for theory <var>T</var> is a set of facts.
     A <em>fact</em> is a ground atomic formula that has one of two
     forms:
     <ul>
@@ -218,9 +217,8 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
   </ul></p>
 
   <p>Let <var>C</var> be the set of constants that occur in
-    theory <var>T</var>.  A structure <var>A</var> produced by the
-    chase program for theory <var>T</var> has the following
-    properties.
+    theory <var>T</var>.  A structure <var>A</var> produced by Chase
+    for theory <var>T</var> has the following properties.
     <ul>
       <li>Functions may be partial.</li>
       <li>Equality in <var>A</var> is closed under congruence.</li>
@@ -231,7 +229,7 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
   <h2 id="output">Output Syntax</h2>
 
   <blockquote>
-    <pre>% chase version 1.2
+    <pre>% chase version 1.3
 % bound = 250, limit = 2000
 % ********
 % author(X) &amp; paper(Y) &amp; assigned(X, Y). % (0)
@@ -252,11 +250,11 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
   read_score(x, y)]</pre>
   </blockquote>
 
-  <p>A run of the chase produces structures assembled into a tree.
-    The root of the tree is labeled (0).  A label of the form (n, p)
-    gives the node number of the tree node and its parent.  When
+  <p>A run of Chase produces structures assembled into a tree.  The
+    root of the tree is labeled (0).  A label of the form (n, p) gives
+    the node number of the tree node and its parent.  When
     structure <var>A</var> is the parent of <var>B</var>, there exists
-    a homomorphism from <var>A</var> into <var>B</var>. Every chase
+    a homomorphism from <var>A</var> into <var>B</var>. Every Chase
     step is structure-preserving.</p>
 
   <p>The form {r} records the rule used to produce this structure.  A
@@ -285,11 +283,13 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
 
   <h2 id="chase">Usage</h2>
 
-  <p>The chase reads a theory from a file or from standard input when
-  no file name is given on the command line.  By default, the output
-  is sent to standard output.  When an error occurs, such as when a
-  bound or limit is exceeded, the error message goes to standard error
-  and the program exits with status 1.</p>
+  <p>Chase reads a theory from a file or from standard input when no
+  file name is given on the command line.  When the input file name
+  has the extension ".md", the input syntax is treated as Markdown,
+  and Chase input is extracted from fenced code blocks. By default,
+  the output is sent to standard output.  When an error occurs, such
+  as when a bound or limit is exceeded, the error message goes to
+  standard error and the program exits with status 1.</p>
 
   <blockquote>
     <pre>$ chase -h
@@ -311,13 +311,13 @@ Options:
   -h       --help         print this message</pre>
   </blockquote>
 
-  <p>Syntax error messages produced by the chase program include
-    Emacs style file position information.  When other error messages
-    include position information, it points to the position
-    of final period in the formula that caused the problem.</p>
+  <p>Syntax error messages produced by Chase include Emacs style file
+    position information.  When other error messages include position
+    information, it points to the position of final period in the
+    formula that caused the problem.</p>
 
-  <p>Terse output mode (<code>-t</code>) is useful when the chase takes
-    many steps.  When in this mode, the chase prints only models.</p>
+  <p>Terse output mode (<code>-t</code>) is useful when Chase takes
+    many steps.  When in this mode, Chase prints only models.</p>
 
   <p>Quantifier input syntax is enabled with <code>-q</code>.  In this
     mode, quantifiers are explicit and a variable may be
@@ -346,7 +346,7 @@ Options:
 
   <h2 id="visualization">Output Visualization</h2>
 
-  <p>The output of a run of the chase can be converted into an XHTML
+  <p>The output of a run of Chase can be converted into an XHTML
     file that displays the tree of structures produced.  The output
     for the conference management example above is approximately
     this.</p>
@@ -399,8 +399,8 @@ Options:
 
   <h2 id="makefile">Makefile</h2>
 
-  <p>The file <code>chase.mk</code> contains make rules for the chase
-    program.  This file is installed in the chase <code>share</code>
+  <p>The file <code>chase.mk</code> contains make rules for Chase.
+    This file is installed in the Chase <code>share</code>
     directory.</p>
 
   <p>A sample makefile that uses <code>chase.mk</code> follows.  If
@@ -441,7 +441,8 @@ clean:
   <h2 id="algorithm">Algorithm</h2>
 
   <p>Models of theory <var>T</var> are found using an algorithm called
-  the chase.  The procedure starts with a structure in which each
+  the <a href="https://en.wikipedia.org/wiki/Chase_(algorithm)">
+  chase</a>.  The procedure starts with a structure in which each
   constant in <var>T</var> is equated to itself.  Queue <var>Q</var>
   is created containing the initial structure, and the main loop
   begins.</p>
