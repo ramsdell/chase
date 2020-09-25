@@ -163,4 +163,8 @@ tests in the [tst directory](tst/README.md), type:
 
     $ make; (cd tst; make)
 
+To generate documentation using ocamldoc, type:
+
+    $ make chase.docdir/index.html
+
 The instructions for debugging the program is in [debug.txt](debug.txt).
