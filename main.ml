@@ -15,6 +15,7 @@ type options = {
     mutable limit : int;
     terse : bool;
     just_one : bool;
+    input_order : bool;
     compact : bool;
     sexpr : bool;
     margin : int;
@@ -62,6 +63,7 @@ let usage =
     \  -o FILE  --output=FILE  output to file (default is standard output)\n\
     \  -t       --terse        use terse output -- print only models\n\
     \  -j       --just-one     find just one model\n\
+    \  -i       --input-order  use input order to select formulas\n\
     \  -b INT   --bound=INT    set structure size bound (default %d)\n\
     \  -l INT   --limit=INT    set step count limit (default %d)\n\
     \  -c       --compact      print structures compactly\n\
@@ -78,6 +80,7 @@ let usage =
 let output    = ref ""
 let terse     = ref false
 let just_one  = ref false
+let in_order  = ref false
 let bound     = ref default_bound
 let limit     = ref default_limit
 let compact   = ref false
@@ -101,6 +104,7 @@ let specs =
                           (Getopt.Error "only one output"));
  ('t', "terse", Getopt.set terse true, None);
  ('j', "just-one", Getopt.set just_one true, None);
+ ('i', "input-order", Getopt.set in_order true, None);
  ('b', "bound", None, Some (getint "bound" bound));
  ('l', "limit", None, Some (getint "limit" limit));
  ('c', "compact", Getopt.set compact true, None);
@@ -151,6 +155,7 @@ let start run =
   let opts = {
       terse = !terse;
       just_one = !just_one;
+      input_order = !in_order;
       bound = !bound;
       limit = !limit;
       compact = !compact;

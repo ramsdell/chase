@@ -40,6 +40,7 @@ Options:
   -o FILE  --output=FILE  output to file (default is standard output)
   -t       --terse        use terse output -- print only models
   -j       --just-one     find just one model
+  -i       --input-order  use input order to select formulas
   -b INT   --bound=INT    set structure size bound (default 250)
   -l INT   --limit=INT    set step count limit (default 2000)
   -c       --compact      print structures compactly

@@ -1,4 +1,4 @@
-% chase version 1.3
+% chase version 1.4
 % bound = 250, limit = 2000
 % ********
 % a(X) | b(X_0). % (0)

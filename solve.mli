@@ -20,9 +20,13 @@ type frame = {
     structure : Structure.structure;
   }
 
-(** [solve just_one bound limit pr axioms] runs the chase for the
-   theory [axioms].  It prints results with [pr].  When [just_one] is
-   true, [solve] halts when it finds one model, otherwise, [solve]
-   finds a set of support.  The size bound it uses is [bound] and the
-   step limit it uses is [limit]. *)
-val solve : bool -> int -> int -> (frame -> unit) -> Formula.axioms -> unit
+(** [solve just_one input_order bound limit pr axioms] runs the chase
+   for the theory [axioms].  It prints results with [pr].  When
+   [just_one] is true, [solve] halts when it finds one model,
+   otherwise, [solve] finds a set of support.  When [input_order] is
+   true, the formulas are tried in the order they are given in the
+   input source file, otherwise, the order is dynamically changed to
+   prevent starvation of some rules.  The size bound it uses is
+   [bound] and the step limit it uses is [limit]. *)
+val solve : bool -> bool -> int -> int -> (frame -> unit) ->
+            Formula.axioms -> unit

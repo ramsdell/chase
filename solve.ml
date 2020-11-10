@@ -50,11 +50,6 @@ let origin {consts; forms} =
     structure = stc;
   }
 
-(* Function used to rotate a list of formulas *)
-let rotate = function
-  | [] -> []
-  | x :: xs -> xs @ [x]
-
 (* When a limit is exceeded, mark the elements of the queue as being
    borted and print them. *)
 let abort pr q fr msg =
@@ -74,7 +69,7 @@ let abort pr q fr msg =
      loop ()
 
 (* This is the main loop. *)
-let rec loop one bound limit pr q i =
+let rec loop one rot bound limit pr q i =
   if Queue.is_empty q then
     ()                          (* Success *)
   else if i > limit then        (* Check step limit *)
@@ -84,53 +79,53 @@ let rec loop one bound limit pr q i =
     if size fr.structure > bound then (* Check size bound *)
       abort pr q (Some fr) "Structure size bound exceeded"
     else                        (* Take a step *)
-      rules one bound limit pr q i fr fr.rules
+      rules one rot bound limit pr q i fr fr.rules
 
 (* Try lightweight rules *)
-and rules one bound limit pr q i fr = function
+and rules one rot bound limit pr q i fr = function
   | [] ->                       (* Try heavyweight rules *)
-     rest one bound limit pr q i fr fr.rules
+     rest one rot bound limit pr q i fr fr.rules
   | r :: rs when not r.enabled || not @@ is_lightweight r ->
-     rules one bound limit pr q i fr rs (* Skip formula *)
+     rules one rot bound limit pr q i fr rs (* Skip formula *)
   | r :: rs ->            (* Use only enabled, lightweight formulas *)
      (match step fr.structure r with
       | None ->                 (* Formula satisfied *)
          if no_antec r then     (* Disable a fact after *)
            r.enabled <- false;  (* it has been tried once *)
-         rules one bound limit pr q i fr rs
+         rules one rot bound limit pr q i fr rs
       | Some stcs ->            (* Chase step found *)
          pr fr;                 (* Print structure *)
          if no_antec r then     (* Disable a fact after *)
            r.enabled <- false;  (* it has been used once *)
-         structs one bound limit pr q (rotate fr.rules) fr.label r.tag i stcs)
+         structs one rot bound limit pr q (rot fr.rules) fr.label r.tag i stcs)
 
 (* Try heavyweight rules *)
-and rest one bound limit pr q i fr = function
+and rest one rot bound limit pr q i fr = function
   | [] ->                       (* Structure satisfies all formulas *)
      fr.status <- Sat;
      pr fr;                     (* Print model *)
      if one then
        ()                       (* Success *)
      else
-       loop one bound limit pr q i
+       loop one rot bound limit pr q i
   | r :: rs when not r.enabled || is_lightweight r ->
-     rest one bound limit pr q i fr rs (* Skip formula *)
+     rest one rot bound limit pr q i fr rs (* Skip formula *)
   | r :: rs ->            (* Use only enabled, heavyweight formulas *)
      (match step fr.structure r with
       | None ->                 (* Formula satisfied *)
          if no_antec r then     (* Disable a fact after *)
            r.enabled <- false;  (* it has been tried once *)
-         rest one bound limit pr q i fr rs
+         rest one rot bound limit pr q i fr rs
       | Some stcs ->            (* Chase step found *)
          pr fr;                 (* Print structure *)
          if no_antec r then     (* Disable a fact after *)
            r.enabled <- false;  (* it has been used once *)
-         structs one bound limit pr q (rotate fr.rules) fr.label r.tag i stcs)
+         structs one rot bound limit pr q (rot fr.rules) fr.label r.tag i stcs)
 
 (* Add new structues to the queue *)
-and structs one bound limit pr q rules parent tag i = function
+and structs one rot bound limit pr q rules parent tag i = function
   | [] ->
-     loop one bound limit pr q i
+     loop one rot bound limit pr q i
   | stc :: stcs ->
      let fr = {
          label = i;
@@ -140,10 +135,18 @@ and structs one bound limit pr q rules parent tag i = function
          rules = rules;
          structure = stc } in
      Queue.add fr q;
-     structs one bound limit pr q rules parent tag (i + 1) stcs
+     structs one rot bound limit pr q rules parent tag (i + 1) stcs
+
+(* Function used to rotate a list of formulas *)
+let rotate = function
+  | [] -> []
+  | x :: xs -> xs @ [x]
+
+(* Function used to not rotate a list of formulas *)
+let id x = x
 
 (* Module entry point *)
-let solve one bound limit pr axioms =
+let solve one in_order bound limit pr axioms =
   let q = Queue.create () in
   Queue.add (origin axioms) q;
-  loop one bound limit pr q 1
+  loop one (if in_order then id else rotate) bound limit pr q 1

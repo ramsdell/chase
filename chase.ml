@@ -104,6 +104,7 @@ let run opts o xs =
   let pr = if opts.terse then tpr else vpr in
 
   (* Run main loop *)
-  solve opts.just_one opts.bound opts.limit pr (mk_axioms xs)
+  solve opts.just_one opts.input_order opts.bound
+    opts.limit pr (mk_axioms xs)
 
 let () = main run

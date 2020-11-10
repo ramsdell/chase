@@ -1,4 +1,4 @@
-% chase version 1.3
+% chase version 1.4
 % bound = 250, limit = 2000
 % ********
 % l_init(z, idx$2) & p_init$k(z) = k & non(invk(k)). % (0)

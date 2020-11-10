@@ -7,4 +7,4 @@
    University of California. *)
 
 (** Program version number *)
-let version = "1.3"
+let version = "1.4"

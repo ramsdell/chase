@@ -1,3 +1,12 @@
+2020-11-10  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* solve.ml (solve): Added input order mode (-i) as an option.  In
+	input order mode, formulas are tried in the order they are given in
+	the input source file, otherwise, the order is dynamically changed
+	to prevent starvation of some rules.
+
+	* version.ml (version): Updated number to 1.4.
+
 2020-02-25  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* chase.opam (version): Tagged as version 1.3.
