@@ -33,6 +33,7 @@ function show(evt, struct) {
     [<a href="#input">Input Syntax</a>]
     [<a href="#structures">Structures</a>]
     [<a href="#output">Output Syntax</a>]
+    [<a href="#order">Formula Selection Order</a>]
     [<a href="#chase">Chase Usage</a>]
     [<a href="#visualization">Output Visualization</a>]
     [<a href="#chasetree">Chasetree Usage</a>]
@@ -282,15 +283,31 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
   <p>Runtime parameters specified in the input take precedence over
     parameters specified on the command line.</p>
 
+  <h2 id="order">Formula Selection Order</h2>
+
+  <p>Chase divides formulas into two classes.  A formula
+    is <em>lightweight</em> iff it contains at most one disjunct in
+    its consequent and it contains no existentially quantified
+    variables.  Otherwise, the formula is <em>heavyweight</em>.  Chase
+    always tries lightweight formulas before it considers heavyweight
+    formulas.</p>
+
+  <p>To avoid formula starvation, by default, Chase modifies the
+    formula selection order for either lightweight or heavyweight
+    formulas at each step.  If input order mode
+    (<code>-i</code>) is selected, the formula selection order does
+    not change at runtime.  Lightweight and heavyweight formulas are
+    tried in the order they are given in the input source file.</p>
+
   <h2 id="chase">Usage</h2>
 
   <p>Chase reads a theory from a file or from standard input when no
-  file name is given on the command line.  When the input file name
-  has the extension ".md", the input syntax is treated as Markdown,
-  and Chase input is extracted from fenced code blocks. By default,
-  the output is sent to standard output.  When an error occurs, such
-  as when a bound or limit is exceeded, the error message goes to
-  standard error and the program exits with status 1.</p>
+    file name is given on the command line.  When the input file name
+    has the extension ".md", the input syntax is treated as Markdown,
+    and Chase input is extracted from fenced code blocks. By default,
+    the output is sent to standard output.  When an error occurs, such
+    as when a bound or limit is exceeded, the error message goes to
+    standard error and the program exits with status 1.</p>
 
   <blockquote>
     <pre>$ chase -h
@@ -322,8 +339,9 @@ Options:
     many steps.  When in this mode, Chase prints only models.</p>
 
   <p>In input order mode (<code>-i</code>) formulas are tried in the
-   order they are given in the input source file, otherwise, the order
-   is dynamically changed to prevent starvation of some rules.</p>
+    order they are given in the input source file, otherwise, the
+    order is dynamically changed to prevent starvation of some
+    formulas.</p>
 
   <p>Quantifier input syntax is enabled with <code>-q</code>.  In this
     mode, quantifiers are explicit and a variable may be
