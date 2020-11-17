@@ -1,3 +1,8 @@
+2020-11-17  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* chaseformsused: Added script that extracts the formulas used
+	during a run of Chase.
+
 2020-11-10  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* solve.ml (solve): Added input order mode (-i) as an option.  In

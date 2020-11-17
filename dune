@@ -9,7 +9,7 @@
 
 (install
  (section bin)
- (files runchase))
+ (files runchase chaseformsused))
 
 (install
  (section doc)
