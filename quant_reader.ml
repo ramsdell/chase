@@ -143,6 +143,6 @@ let from_form tbl (Form (p, c, d)) =
 let read_file fname ch =
   let lexbuf = read_lexbuf fname ch in
   let fun_tab = sym (Hashtbl.create 256) in
-  let bnd, lmt, ast = read_ast lexbuf in
+  let hrld, ast = read_ast lexbuf in
   List.iter check_for_dups ast;
-  bnd, lmt, List.map (from_form fun_tab) ast
+  hrld, List.map (from_form fun_tab) ast

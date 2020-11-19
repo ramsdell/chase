@@ -6,6 +6,8 @@
    modify it under the terms of the BSD License as published by the
    University of California. *)
 
+open Herald
+
 let default_bound = 250
 let default_limit = 2000
 
@@ -15,7 +17,7 @@ type options = {
     mutable limit : int;
     terse : bool;
     just_one : bool;
-    input_order : bool;
+    mutable input_order : bool;
     compact : bool;
     sexpr : bool;
     margin : int;
@@ -25,26 +27,30 @@ type options = {
   }
 
 (* Update option from the herald in the input *)
-let herald opts bnd lmt =
-  (match bnd with
+let herald opts hrld =
+  (match hrld.bnd with
    | None -> ()
    | Some i ->
       opts.bound <- i);
-  match lmt with
+  (match hrld.lmt with
    | None -> ()
    | Some i ->
-      opts.limit <- i
+      opts.limit <- i);
+  match hrld.in_ord with
+   | None -> ()
+   | Some () ->
+      opts.input_order <- true
 
 (* Actions after processing the command line *)
 
 let go run opts f i ofile =
-  let bnd, lmt, xs =            (* Read formulas *)
+  let hrld, xs =                (* Read formulas *)
     if opts.quant then
       Quant_reader.read_file f i
     else
       Reader.read_file f i in
   close_in i;
-  herald opts bnd lmt;          (* Process herald *)
+  herald opts hrld;             (* Process herald *)
   Arity.arity xs;               (* Ensure valid signature *)
   List.iter Check.check xs;     (* Check formulas *)
   let o =                       (* Open output *)

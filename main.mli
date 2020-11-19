@@ -6,7 +6,7 @@ type options = {
     mutable limit : int;
     terse : bool;
     just_one : bool;
-    input_order : bool;
+    mutable input_order : bool;
     compact : bool;
     sexpr : bool;
     margin : int;

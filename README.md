@@ -89,7 +89,7 @@ A run of Chase produces the following output.
 ```
 $ chase cm.gl
 % chase version 1.3
-% bound = 50, limit = 500
+% bound = 50, limit = 500, input_order = false
 % ********
 % author(X) & paper(Y) & assigned(X, Y). % (0)
 % author(X) & paper(Y) => read_score(X, Y) | conflict(X, Y). % (1)

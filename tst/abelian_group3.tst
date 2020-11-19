@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000
+% bound = 250, limit = 2000, input_order = false
 % ********
 % X = X & Y = Y & Z = Z => dot(dot(X, Y), Z) = dot(X, dot(Y, Z)). % (0)
 % X = X => dot(X, one) = X. % (1)

@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 50, limit = 500
+% bound = 50, limit = 500, input_order = false
 % ********
 % file(F) => link(F) | regular(F). % (0)
 % link(L) => target_of(L) = F & file(F). % (1)

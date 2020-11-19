@@ -232,7 +232,7 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
 
   <blockquote>
     <pre>% chase version 1.3
-% bound = 250, limit = 2000
+% bound = 250, limit = 2000, input_order = false
 % ********
 % author(X) &amp; paper(Y) &amp; assigned(X, Y). % (0)
 % author(X) &amp; paper(Y) => read_score(X, Y) | conflict(X, Y). % (1)
@@ -269,15 +269,18 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
     number of facts in a structure exceeds the size bound or when the
     number of structures produced exceeds the step limit.  Runtime
     parameters can be specified on the command line,
-    where <code>-b</code> sets the size bound and <code>-l</code> sets
-    the step limit.  Runtime parameters can also be specified at the
+    where <code>-b</code> sets the size bound, <code>-l</code> sets
+    the step limit, and <code>-i</code> sets input order formula
+    selection.  Runtime parameters can also be specified at the
     beginning of the input.  Within square brackets, write <code>bound
-    = 66</code> to specify a size bound of 66, and write <code>limit =
-    1024</code> to specify a step limit of 1024.  Use a comma to
-    separate parameters when more than one is specified.</p>
+    = 66</code> to specify a size bound of 66, write <code>limit =
+    1024</code> to specify a step limit of 1024, and
+    write <code>input_order</code> to specify input order formula
+    selection.  Use a comma to separate parameters when more than one
+    is specified.</p>
 
   <blockquote>
-    <pre>[ bound = 66, limit = 1024 ]</pre>
+    <pre>[ bound = 66, limit = 1024, input_order ]</pre>
   </blockquote>
 
   <p>Runtime parameters specified in the input take precedence over

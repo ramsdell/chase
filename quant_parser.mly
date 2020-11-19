@@ -2,6 +2,7 @@
 
 %{
     open Quant_ast
+    open Herald
 
     (* Ensure antecedent is a conjunction of atoms *)
     let form pos vars antec concl =
@@ -9,25 +10,13 @@
       | Disj [Quant ([], conj)] -> Form (pos, Quant (vars, conj), concl)
       | _ -> raise Parsing.Parse_error
 
-    (* Code for parsing size bounds and step limits in the input *)
+    (* Code for parsing size bounds, step limits, and input order in
+       the source *)
 
-    (* Handle a runtime parameter *)
-    let make sym num =
-      if sym = "bound" then
-	Some num, None
-      else if sym = "limit" then
-	None, Some num
-      else
-	raise Parsing.Parse_error
-
-    (* Merge two runtime parameters *)
-    let merge lft rht =
-      match lft, rht with
-      | (Some i, None), (None, Some j) ->
-	 Some i, Some j
-      | (None, Some j), (Some i, None) ->
-	 Some i, Some j
-      |	_ -> raise Parsing.Parse_error
+    let herald xs =
+      match parse_herald xs with
+      | Some h -> h
+      | None -> raise Parsing.Parse_error
 %}
 
 %token <string> SYMBOL
@@ -48,25 +37,26 @@
 %token PERIOD
 %token EOF
 %start file
-%type <int option * int option * Quant_ast.ast_form list> file
+%type <Herald.herald * Quant_ast.ast_form list> file
 %%
 
 file:
-    herald forms EOF { let b, l = $1 in b, l, List.rev $2 }
+    herald forms EOF { $1, List.rev $2 }
 ;
 
 herald:			      /* Handle optional runtime parameters */
-    { None, None }
-  | LBRA params RBRA { $2 }
+    { empty_herald }
+  | LBRA params RBRA { herald $2 }
 ;
 
 params:
-    param { $1 }
-  | param COMMA param { merge $1 $3 }
+    param { [$1] }
+  | params COMMA param { $3 :: $1 }
 ;
 
 param:
-    SYMBOL EQUAL DIGITS { make $1 $3 }
+    SYMBOL              { $1, None }
+  | SYMBOL EQUAL DIGITS { $1, Some $3 }
 ;
 
 forms:

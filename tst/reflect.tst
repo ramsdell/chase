@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000
+% bound = 250, limit = 2000, input_order = false
 % ********
 % l_resp(z, idx$1) & p_resp$a(z) = a & non(invk(a)) & p_resp$b(z) = b
 %   & non(invk(b)). % (0)
