@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input_order = false
+% bound = 250, limit = 2000, input-order = false
 % ********
 % src(z). % (0)
 % src(X) => tail(Z) & p(X, Z). % (1)

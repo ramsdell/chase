@@ -232,7 +232,7 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
 
   <blockquote>
     <pre>% chase version 1.4
-% bound = 250, limit = 2000, input_order = false
+% bound = 250, limit = 2000, input-order = false
 % ********
 % author(X) &amp; paper(Y) &amp; assigned(X, Y). % (0)
 % author(X) &amp; paper(Y) => read_score(X, Y) | conflict(X, Y). % (1)
@@ -275,12 +275,12 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
     beginning of the input.  Within square brackets, write <code>bound
     = 66</code> to specify a size bound of 66, write <code>limit =
     1024</code> to specify a step limit of 1024, and
-    write <code>input_order</code> to specify input order formula
+    write <code>input-order</code> to specify input order formula
     selection.  Use a comma to separate parameters when more than one
     is specified.</p>
 
   <blockquote>
-    <pre>[ bound = 66, limit = 1024, input_order ]</pre>
+    <pre>[ bound = 66, limit = 1024, input-order ]</pre>
   </blockquote>
 
   <p>Runtime parameters specified in the input take precedence over

@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input_order = false
+% bound = 250, limit = 2000, input-order = false
 % ********
 % lt(o, s(s(s(s(o))))). % (0)
 % lt(X, s(Y)) => lt(Y, s(Y)). % (1)

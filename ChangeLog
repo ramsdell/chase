@@ -1,3 +1,7 @@
+2020-11-19  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* herald.ml (parse_item):  Renamed input_order to input-order.
+
 2020-11-18  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* herald.ml (parse_herald):  Added input_order to the kinds of

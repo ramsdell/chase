@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input_order = false
+% bound = 250, limit = 2000, input-order = false
 % ********
 % p(W) & q(X) & r(Y) & s(Z). % (0)
 % p(X) & s(X) => t(X). % (1)

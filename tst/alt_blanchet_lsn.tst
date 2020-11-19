@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input_order = false
+% bound = 250, limit = 2000, input-order = false
 % ********
 % l_resp(strd(z), idx$2) & p_resp$a(strd(z)) = mesg(akey(a))
 %   & p_resp$d(strd(z)) = mesg(text(d)) & l_(strd(w), idx$2)

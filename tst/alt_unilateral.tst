@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input_order = false
+% bound = 250, limit = 2000, input-order = false
 % ********
 % l_init(strd(z), idx$2) & p_init$k(strd(z)) = mesg(akey(k))
 %   & non(mesg(akey(invk(k)))). % (0)
