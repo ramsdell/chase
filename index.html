@@ -33,6 +33,7 @@ function show(evt, struct) {
     [<a href="#input">Input Syntax</a>]
     [<a href="#structures">Structures</a>]
     [<a href="#output">Output Syntax</a>]
+    [<a href="#order">Formula Selection Order</a>]
     [<a href="#chase">Chase Usage</a>]
     [<a href="#visualization">Output Visualization</a>]
     [<a href="#chasetree">Chasetree Usage</a>]
@@ -221,6 +222,7 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
     for theory <var>T</var> has the following properties.
     <ul>
       <li>Functions may be partial.</li>
+      <li>Each constant in <var>C</var> is the left hand side of a fact.</li>
       <li>Equality in <var>A</var> is closed under congruence.</li>
       <li> Each element in <var>U</var> is the canonical representative
         of an equivalence class induced by congruence closure.</li>
@@ -230,7 +232,7 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
 
   <blockquote>
     <pre>% chase version 1.3
-% bound = 250, limit = 2000
+% bound = 250, limit = 2000, input_order = false
 % ********
 % author(X) &amp; paper(Y) &amp; assigned(X, Y). % (0)
 % author(X) &amp; paper(Y) => read_score(X, Y) | conflict(X, Y). % (1)
@@ -267,29 +269,48 @@ assigned(X, Y) &amp; conflict(X, Y) => false.</pre>
     number of facts in a structure exceeds the size bound or when the
     number of structures produced exceeds the step limit.  Runtime
     parameters can be specified on the command line,
-    where <code>-b</code> sets the size bound and <code>-l</code> sets
-    the step limit.  Runtime parameters can also be specified at the
+    where <code>-b</code> sets the size bound, <code>-l</code> sets
+    the step limit, and <code>-i</code> sets input order formula
+    selection.  Runtime parameters can also be specified at the
     beginning of the input.  Within square brackets, write <code>bound
-    = 66</code> to specify a size bound of 66, and write <code>limit =
-    1024</code> to specify a step limit of 1024.  Use a comma to
-    separate parameters when more than one is specified.</p>
+    = 66</code> to specify a size bound of 66, write <code>limit =
+    1024</code> to specify a step limit of 1024, and
+    write <code>input_order</code> to specify input order formula
+    selection.  Use a comma to separate parameters when more than one
+    is specified.</p>
 
   <blockquote>
-    <pre>[ bound = 66, limit = 1024 ]</pre>
+    <pre>[ bound = 66, limit = 1024, input_order ]</pre>
   </blockquote>
 
   <p>Runtime parameters specified in the input take precedence over
     parameters specified on the command line.</p>
 
+  <h2 id="order">Formula Selection Order</h2>
+
+  <p>Chase divides formulas into two classes.  A formula
+    is <em>lightweight</em> iff it contains at most one disjunct in
+    its consequent and it contains no existentially quantified
+    variables.  Otherwise, the formula is <em>heavyweight</em>.  Chase
+    always tries lightweight formulas before it considers heavyweight
+    formulas.</p>
+
+  <p>To avoid formula starvation, by default, Chase modifies the
+    formula selection order for either lightweight or heavyweight
+    formulas at each step.  If input order mode
+    (<code>-i</code>) is selected, the formula selection order does
+    not change at runtime.  Lightweight and heavyweight formulas are
+    tried in the order they are given in the input source file.</p>
+
   <h2 id="chase">Usage</h2>
 
   <p>Chase reads a theory from a file or from standard input when no
-  file name is given on the command line.  When the input file name
-  has the extension ".md", the input syntax is treated as Markdown,
-  and Chase input is extracted from fenced code blocks. By default,
-  the output is sent to standard output.  When an error occurs, such
-  as when a bound or limit is exceeded, the error message goes to
-  standard error and the program exits with status 1.</p>
+    file name is given on the command line.  When the input file name
+    has the extension ".md", the input syntax is treated as Markdown,
+    and Chase input is extracted from fenced code blocks. By default,
+    the output is sent to standard output.  When an error occurs, such
+    as when a bound or limit is exceeded, the error message goes to
+    standard error and the program exits with status 1.</p>
 
   <blockquote>
     <pre>$ chase -h
@@ -298,6 +319,7 @@ Options:
   -o FILE  --output=FILE  output to file (default is standard output)
   -t       --terse        use terse output -- print only models
   -j       --just-one     find just one model
+  -i       --input-order  use input order to select formulas
   -b INT   --bound=INT    set structure size bound (default 250)
   -l INT   --limit=INT    set step count limit (default 2000)
   -c       --compact      print structures compactly
@@ -318,6 +340,11 @@ Options:
 
   <p>Terse output mode (<code>-t</code>) is useful when Chase takes
     many steps.  When in this mode, Chase prints only models.</p>
+
+  <p>In input order mode (<code>-i</code>) formulas are tried in the
+    order they are given in the input source file, otherwise, the
+    order is dynamically changed to prevent starvation of some
+    formulas.</p>
 
   <p>Quantifier input syntax is enabled with <code>-q</code>.  In this
     mode, quantifiers are explicit and a variable may be
