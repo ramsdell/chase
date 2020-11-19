@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input-order = false
+% bound = 250, limit = 2000, input_order = false
 % ********
 % author(X) & paper(Y) & assigned(X, Y). % (0)
 % author(X) & paper(Y) => read_score(X, Y) | conflict(X, Y). % (1)

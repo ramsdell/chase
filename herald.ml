@@ -11,7 +11,7 @@ let parse_item hrld (keyword, value) =
      Some { hrld with bnd = Some num }
   | "limit", Some num ->
      Some { hrld with lmt = Some num }
-  | "input-order", None ->
+  | "input_order", None ->
      Some { hrld with in_ord = Some () }
   | _ -> None
 

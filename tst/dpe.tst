@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input-order = false
+% bound = 250, limit = 2000, input_order = false
 % ********
 % exists(a) & exists(b) & exists(c). % (0)
 % re(b, X) & re(c, X) => goal. % (1)

@@ -61,7 +61,7 @@ let run opts o xs =
   pp_print_int f opts.bound;
   pp_print_string f ", limit = ";
   pp_print_int f opts.limit;
-  pp_print_string f ", input-order = ";
+  pp_print_string f ", input_order = ";
   pp_print_bool f opts.input_order;
   pp_print_newline f ();
 

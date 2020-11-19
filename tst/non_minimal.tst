@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input-order = false
+% bound = 250, limit = 2000, input_order = false
 % ********
 % a(X) | b(X_0). % (0)
 % a(X) => b(X). % (1)

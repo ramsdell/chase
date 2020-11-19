@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input-order = false
+% bound = 250, limit = 2000, input_order = false
 % ********
 % p(a) & p(b). % (0)
 % p(X) => q(X, X). % (1)

@@ -1,5 +1,5 @@
 % chase version 1.4
-% bound = 250, limit = 2000, input-order = false
+% bound = 250, limit = 2000, input_order = false
 % ********
 % teacher(T) => person(T). % (0)
 % class(C) => T = instructor_of(C). % (1)
