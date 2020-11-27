@@ -1,6 +1,10 @@
+2020-11-27  John D. Ramsdell  <ramsdell0@gmail.com>
+
+	* chase.opam (version): Tagged as version 1.4.
+
 2020-11-18  John D. Ramsdell  <ramsdell@mitre.org>
 
-	* herald.ml (parse_herald):  Added input_order to the kinds of
+	* herald.ml (parse_herald): Added input_order to the kinds of
 	runtime parameters that can be specified in a source file.
 
 2020-11-17  John D. Ramsdell  <ramsdell@mitre.org>
