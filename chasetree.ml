@@ -364,7 +364,6 @@ type conf = {
     my : float;                  (* Height of margin *)
     tx : float;                  (* Distance between tree leaves *)
     ty : float;                  (* Distance between tree levels *)
-    ta : float;                  (* Font ascent *)
     td : float                   (* Font descent *)
   }
 
@@ -378,7 +377,6 @@ let conf = {
     my = 3.33 *. font;
     tx = 4.16 *. font;
     ty = 6.25 *. font;
-    ta = 1.75 *. font;
     td = 1.16 *. font
   }
 

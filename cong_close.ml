@@ -40,7 +40,7 @@ and equiv = {
 
 and root = {
     repr: equiv;                (* The class representative *)
-    mutable size: int }         (* Number of elements in class *)
+    size: int }                 (* Number of elements in class *)
 
 (* Nodes of the smallest size are favored to be the class representative. *)
 let size nd =

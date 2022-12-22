@@ -1,7 +1,7 @@
 (executables
  (names chase chasetree)
  (public_names chase chasetree)
- (libraries getopt str))
+ (libraries str))
 
 (ocamllex scanner quant_scanner)
 
