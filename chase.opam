@@ -1,6 +1,6 @@
 opam-version: "2.0"
 name: "chase"
-version: "1.4"
+version: "1.5"
 synopsis: "Model finder for geometric theories using the chase"
 description: """
 Chase is a model finder for first order logic with equality.  It finds
@@ -21,6 +21,6 @@ bug-reports: "https://github.com/ramsdell/chase/issues"
 depends: ["ocaml" { >= "4.05" } "dune" { >= "1.1" }]
 build: ["dune" "build" "-p" name "-j" jobs]
 url {
-  src: "https://github.com/ramsdell/chase/archive/1.4.tar.gz"
+  src: "https://github.com/ramsdell/chase/archive/1.5.tar.gz"
   checksum: "md5=937e96273bb2bea1be60a3e7d2672fd9"
 }

@@ -1,3 +1,13 @@
+2023-01-24  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* getopt.ml, getopt.mli: Added these sources files to this
+	distribution so that they could be updated to work with OCaml 5.0.
+	The original version accessed Pervasives.incr which has
+	disappeared in OCaml 5.0.  Also added the COPYING notice in
+	ocaml-getopt into getopt.ml as a comment.
+
+	* version.ml (version): Updated number to 1.5.
+
 2020-11-27  John D. Ramsdell  <ramsdell0@gmail.com>
 
 	* chase.opam (version): Tagged as version 1.4.

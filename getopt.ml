@@ -68,8 +68,11 @@ let parse opts others args first last =
 		for i = 2 to (l - 1) do
 		  match find_short s.[i] with
 		    | (_,_,Some handle,None) -> handle ()
-		    | _ -> raise (Error (Printf.sprintf
-					   "Only non-argument short-options can be concatenated (error with option %c in %s)"  s.[i] s))
+		    | _ -> raise
+                             (Error
+                                (Printf.sprintf
+				   "Only non-argument short-options can be concatenated (error with option %c in %s)"
+                                   s.[i] s))
 		done;
 		aux (succ no)
 	    | (_,_,_,Some handle) as o ->

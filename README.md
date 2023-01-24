@@ -18,15 +18,14 @@ it is defined only on a proper subset of its domain.
 
 ## Installing From Sources
 
-This software uses ocaml, opam, getopt, and dune.  See
-<http://ocaml.org> for ocaml installation instructions.  Install getopt
-and dune with:
+This software uses ocaml, opam, and dune.  See <http://ocaml.org> for
+ocaml installation instructions.  Install dune with:
 
-    $ opam install getopt dune
+    $ opam install dune
 
 Install the programs with:
 
-    $ dune build @install
+    $ dune build
     $ dune install
 
 ## Usage
@@ -88,7 +87,7 @@ A run of Chase produces the following output.
 
 ```
 $ chase cm.gl
-% chase version 1.4
+% chase version 1.5
 % bound = 50, limit = 500, input_order = false
 % ********
 % author(X) & paper(Y) & assigned(X, Y). % (0)

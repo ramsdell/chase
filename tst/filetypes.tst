@@ -1,4 +1,4 @@
-% chase version 1.4
+% chase version 1.5
 % bound = 50, limit = 500, input_order = false
 % ********
 % file(F) => link(F) | regular(F). % (0)
