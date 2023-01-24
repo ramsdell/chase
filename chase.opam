@@ -22,5 +22,5 @@ depends: ["ocaml" { >= "4.05" } "dune" { >= "1.1" }]
 build: ["dune" "build" "-p" name "-j" jobs]
 url {
   src: "https://github.com/ramsdell/chase/archive/1.5.tar.gz"
-  checksum: "md5=937e96273bb2bea1be60a3e7d2672fd9"
+  checksum: "md5=d41d8cd98f00b204e9800998ecf8427e"
 }
